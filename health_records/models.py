@@ -1,3 +1,5 @@
+import math
+
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -10,9 +12,27 @@ class HealthProfile(ClusterableModel):
         verbose_name = 'Health Profile'
 
     user = models.OneToOneField(User, primary_key=True)
+    height = models.FloatField(help_text="Height in inches")
 
     def __str__(self):
         return self.user.username
+
+    def height_in_feet_and_inches(self):
+        """
+        Helper method that will convert the height in inches into feet and inches.
+        :return: A tuple of the form (feet, inches)
+        """
+        height = self.height
+        height_feet = height / 12
+        inches, feet = math.modf(height_feet)
+        feet = int(feet)
+        inches *= 12
+        inches = round(inches, 2)
+        inches_frac, inches_whole = math.modf(inches)
+        if not inches_frac:
+            inches = int(inches)
+
+        return feet, inches
 
 
 class HealthRecord(ClusterableModel):
@@ -20,6 +40,7 @@ class HealthRecord(ClusterableModel):
     activity_date = models.DateField()
     date_created = models.DateField(auto_now_add=True)
     date_modified = models.DateField(auto_now=True)
+    weight = models.FloatField(help_text="Enter your weight in lbs.")
 
     def __str__(self):
         return self.profile.user.username + ':' + self.activity_date.strftime('%b %d, %Y')

@@ -10,13 +10,17 @@
             <table class="mdl-data-table mdl-js-data-table">
               <thead>
                 <tr>
-                  <th class="mdl-data-table__cell--non-numeric">Name</th>
+                    <th class="mdl-data-table__cell--non-numeric">Name</th>
+                    <th class="mdl-data-table__cell--non-numeric">Height</th>
                 </tr>
               </thead>
               <tbody>
               {% for profile in object_list %}
                 <tr>
-                  <td class="mdl-data-table__cell--non-numeric">{{ profile.user.get_full_name }}</td>
+                    <td class="mdl-data-table__cell--non-numeric">{{ profile.user.get_full_name }}</td>
+                    {% with profile.height_in_feet as height%}
+                    <td class="mdl-data-table__cell--non-numeric">{{ height.0 }}' {{ height.1 }}"</td>
+                    {% endwith %}
                 </tr>
               {% endfor %}
               </tbody>
