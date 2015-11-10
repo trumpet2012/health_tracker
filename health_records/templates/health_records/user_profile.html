@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content_title %}
+    Profile Page
+{% endblock %}
+
+{% block content %}
+
+    <div class="mdl-shadow--2dp mdl-color--white mdl-cell--12-col">
+        <div class="mdl-layout__content health-cell">
+            <table class="mdl-data-table mdl-js-data-table">
+                <thead>
+                <tr>
+                    <th class="mdl-data-table__cell--non-numeric">Name</th>
+                    <th class="mdl-data-table__cell--non-numeric">Username</th>
+                    <th class="mdl-data-table__cell--non-numeric">E-mail</th>
+                    <th class="mdl-data-table__cell--non-numeric">Height</th>
+                    <th class="mdl-data-table__cell--non-numeric">BMI</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="mdl-data-table__cell--non-numeric">{{ profile.user.get_full_name }}</td>
+                    <td class="mdl-data-table__cell--non-numeric">{{ profile }}</td>
+                    <td class="mdl-data-table__cell--non-numeric">{{ profile.user.email }}</td>
+                    {% with profile.height_in_feet_and_inches as height %}
+                        <td class="mdl-data-table__cell--non-numeric">{{ height.0 }}' {{ height.1 }}"</td>
+                    {% endwith %}
+                    <td class="mdl-data-table__cell--non-numeric">BMI TEST = 23</td>
+
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% endblock %}
+
