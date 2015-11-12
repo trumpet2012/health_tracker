@@ -15,6 +15,7 @@
                     <th class="mdl-data-table__cell--non-numeric">Username</th>
                     <th class="mdl-data-table__cell--non-numeric">E-mail</th>
                     <th class="mdl-data-table__cell--non-numeric">Height</th>
+                    <th class="mdl-data-table__cell--non-numeric">Weight</th>
                     <th class="mdl-data-table__cell--non-numeric">BMI</th>
                 </tr>
                 </thead>
@@ -26,7 +27,8 @@
                     {% with profile.height_in_feet_and_inches as height %}
                         <td class="mdl-data-table__cell--non-numeric">{{ height.0 }}' {{ height.1 }}"</td>
                     {% endwith %}
-                    <td class="mdl-data-table__cell--non-numeric">BMI TEST = 23</td>
+                    <td class="mdl-data-table__cell--non-numeric">{{ profile.weight }} lbs</td>
+                    <td class="mdl-data-table__cell--non-numeric">{{ profile.calculate_bmi | floatformat }}</td>
 
                 </tr>
                 </tbody>

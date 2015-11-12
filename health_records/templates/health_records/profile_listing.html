@@ -8,22 +8,22 @@
     <div class="mdl-shadow--2dp mdl-color--white mdl-cell--12-col">
         <div class="mdl-layout__content health-cell">
             <table class="mdl-data-table mdl-js-data-table">
-              <thead>
+                <thead>
                 <tr>
                     <th class="mdl-data-table__cell--non-numeric">Name</th>
                     <th class="mdl-data-table__cell--non-numeric">Height</th>
                 </tr>
-              </thead>
-              <tbody>
-              {% for profile in object_list %}
-                <tr>
-                    <td class="mdl-data-table__cell--non-numeric">{{ profile.user.get_full_name }}</td>
-                    {% with profile.height_in_feet_and_inches as height%}
-                    <td class="mdl-data-table__cell--non-numeric">{{ height.0 }}' {{ height.1 }}"</td>
-                    {% endwith %}
-                </tr>
-              {% endfor %}
-              </tbody>
+                </thead>
+                <tbody>
+                {% for profile in object_list %}
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric">{{ profile.user.get_full_name }}</td>
+                        {% with profile.height_in_feet_and_inches as height %}
+                            <td class="mdl-data-table__cell--non-numeric">{{ height.0 }}' {{ height.1 }}"</td>
+                        {% endwith %}
+                    </tr>
+                {% endfor %}
+                </tbody>
             </table>
         </div>
     </div>
