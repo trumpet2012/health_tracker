@@ -6,5 +6,6 @@ from health_records import views
 
 urlpatterns = [
     url('^all/$', ProfileListing.as_view(), name='profile_listing'),
-    url('^profile/$', views.profile_page, name='profile_page'),
+    url('^profile/(?P<profile_id>\d+)$', views.profile_page, name='profile_page'),
+    url('^profile/', views.profile, name='profile'),
 ]

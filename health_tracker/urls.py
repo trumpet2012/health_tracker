@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+from health_tracker import views
 
 from health_records import urls as records_urls
 
@@ -24,4 +25,5 @@ urlpatterns = [
     url(r'^$', IndexView.as_view(), name='index'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^records/', include(records_urls)),
+    url(r'login/', views.login, name='login')
 ]
