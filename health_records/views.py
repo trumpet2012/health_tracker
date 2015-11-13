@@ -32,4 +32,4 @@ def profile(request):
         health_profile = HealthProfile.objects.get(user=request.user)
         return HttpResponseRedirect(reverse('profile_page', args=(health_profile.user_id,)))
     else:
-        return HttpResponseRedirect(reverse('login'), )
+        return HttpResponseRedirect(reverse('admin:index'), )
