@@ -17,8 +17,9 @@
                 <tbody>
                 {% for profile in object_list %}
                     <tr>
-                        <td class="mdl-data-table__cell--non-numeric"><a
-                                href="{% url 'profile_page' profile.user_id %}">{{ profile.user.get_full_name }}</a>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <a href="{% url 'profile_page' profile.user_id %}">
+                            {{ profile.user.get_full_name }}</a>
                         </td>
                         {% with profile.height_in_feet_and_inches as height %}
                             <td class="mdl-data-table__cell--non-numeric">{{ height.0 }}' {{ height.1 }}"</td>
@@ -28,6 +29,32 @@
                 {% endfor %}
                 </tbody>
             </table>
+
+            {% if is_paginated %}
+                <div class="pagination">
+                <table>
+                    <span class="page-links">
+                    <tr>
+                    <td class="mdl-data-table__cell--non-numeric">
+                        {% if page_obj.has_previous %}
+                            <a href="/records/all?page={{ page_obj.previous_page_number }}">previous</a>
+                        {% endif %}
+                    </td>
+                    <td class="mdl-data-table__cell--non-numeric">
+                        <span class="page-current">
+                            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                        </span>
+                    </td>
+                    <td class="mdl-data-table__cell--non-numeric">
+                        {% if page_obj.has_next %}
+                            <a href="/records/all?page={{ page_obj.next_page_number }}">next</a>
+                        {% endif %}
+                    </td>
+                    </tr>
+                    </span>
+                </table>
+                </div>
+            {% endif %}
         </div>
     </div>
 {% endblock content %}
