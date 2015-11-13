@@ -4,7 +4,6 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.exceptions import ObjectDoesNotExist
-from health_tracker.views import login
 
 from .models import HealthProfile
 
@@ -19,7 +18,7 @@ def profile_page(request, profile_id):
     try:
         profile = HealthProfile.objects.get(user_id=profile_id)
     except ObjectDoesNotExist:
-        return HttpResponse("<h1>Must be logged in to view your profile (this should change later)</h1>")
+        return HttpResponse("<h1>No profile with id: %s was found!</h1>" % profile_id)
 
     context = {
         'profile': profile
