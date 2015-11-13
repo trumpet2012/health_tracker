@@ -12,7 +12,7 @@ from .models import HealthProfile
 class ProfileListing(ListView):
     model = HealthProfile
     template_name = 'health_records/profile_listing.html'
-    paginate_by = 1
+    paginate_by = 10
 
 def profile_page(request, profile_id):
     template = 'health_records/user_profile.html'
