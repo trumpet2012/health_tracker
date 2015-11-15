@@ -6,6 +6,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.core.exceptions import ObjectDoesNotExist
 
 from .models import HealthProfile
+from .forms import EatingForm, PhysicalForm, RecordForm
 
 
 class ProfileListing(ListView):
@@ -25,6 +26,28 @@ def profile_page(request, profile_id):
     }
 
     return render_to_response(template, context)
+
+
+def create_profile(request, profile_id):
+    profile = HealthProfile.objects.get(pk=profile_id)
+
+    template = 'health_records/create_health_record.html'
+    context = {
+        'profile': profile,
+    }
+
+    if request.method == 'GET':
+        context.update({
+            'record_form': RecordForm(),
+            'phys_form': PhysicalForm(),
+            'eat_form': EatingForm(),
+        })
+
+    if request.method == 'POST':
+        pass
+
+    return render_to_response(template, context=context)
+
 
 def profile(request):
     if request.user.is_authenticated():

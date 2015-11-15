@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
 
     <title>{% block page_title %}Track Your Health{% endblock %}</title>
-
+    {% include 'material/includes/material_css.html' %}
+    {% include 'material/includes/material_js.html' %}
     <link rel="stylesheet" href={% static 'css/material.min.css' %}>
     <script src={% static 'js/material.min.js' %}></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">

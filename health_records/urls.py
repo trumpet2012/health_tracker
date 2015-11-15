@@ -8,4 +8,5 @@ urlpatterns = [
     url('^all/$', ProfileListing.as_view(), name='profile_listing'),
     url('^profile/(?P<profile_id>\d+)$', views.profile_page, name='profile_page'),
     url('^profile/', views.profile, name='profile'),
+    url('^create-record/(?P<profile_id>\d+)$', views.create_profile, name='create_record')
 ]

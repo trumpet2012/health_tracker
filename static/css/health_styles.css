@@ -10,3 +10,23 @@
 .health-cell {
     padding: 16px 32px;
 }
+
+nav {
+    line-height: 20px;
+}
+
+nav, nav .nav-wrapper i, nav a.button-collapse, nav a.button-collapse i{
+    line-height: 20px;
+}
+
+.demo-layout .demo-header .mdl-textfield {
+    padding-top: 15px;
+}
+
+.mdl-textfield {
+    padding: 0 0;
+}
+
+.form-header {
+    padding: 16px 0 8px 0;
+}
