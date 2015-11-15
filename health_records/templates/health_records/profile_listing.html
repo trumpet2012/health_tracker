@@ -7,34 +7,36 @@
 {% block content %}
     <div class="mdl-shadow--2dp mdl-color--white mdl-cell--12-col">
         <div class="mdl-layout__content health-cell">
-            <table class="mdl-data-table mdl-js-data-table">
-                <thead>
-                <tr>
-                    <th class="mdl-data-table__cell--non-numeric">Name</th>
-                    <th class="mdl-data-table__cell--non-numeric">Username</th>
-                    <th class="mdl-data-table__cell--non-numeric">E-mail</th>
-                    <th class="mdl-data-table__cell--non-numeric">Height</th>
-                    <th class="mdl-data-table__cell--non-numeric">Weight</th>
-                    <th class="mdl-data-table__cell--non-numeric">BMI</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for profile in object_list %}
+            {% if object_list %}
+                <table class="mdl-data-table mdl-js-data-table">
+                    <thead>
                     <tr>
-                        <td class="mdl-data-table__cell--non-numeric">{{ profile.user.get_full_name }}</td>
-                        <td class="mdl-data-table__cell--non-numeric">{{ profile }}</td>
-                        <td class="mdl-data-table__cell--non-numeric">{{ profile.user.email }}</td>
-                        {% with profile.height_in_feet_and_inches as height %}
-                            <td class="mdl-data-table__cell--non-numeric">{{ height.0 }}' {{ height.1 }}"</td>
-                        {% endwith %}
-                        <td class="mdl-data-table__cell--non-numeric">{{ profile.weight }} lbs</td>
-                        <td class="mdl-data-table__cell--non-numeric">{{ profile.calculate_bmi | floatformat }}</td>
-
+                        <th class="mdl-data-table__cell--non-numeric">Name</th>
+                        <th class="mdl-data-table__cell--non-numeric">Username</th>
+                        <th class="mdl-data-table__cell--non-numeric">E-mail</th>
+                        <th class="mdl-data-table__cell--non-numeric">Height</th>
+                        <th class="mdl-data-table__cell--non-numeric">Weight</th>
+                        <th class="mdl-data-table__cell--non-numeric">BMI</th>
                     </tr>
-
-                {% endfor %}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                    {% for profile in object_list %}
+                        <tr>
+                            <td class="mdl-data-table__cell--non-numeric">{{ profile.user.get_full_name }}</td>
+                            <td class="mdl-data-table__cell--non-numeric">{{ profile }}</td>
+                            <td class="mdl-data-table__cell--non-numeric">{{ profile.user.email }}</td>
+                            {% with profile.height_in_feet_and_inches as height %}
+                                <td class="mdl-data-table__cell--non-numeric">{{ height.0 }}' {{ height.1 }}"</td>
+                            {% endwith %}
+                            <td class="mdl-data-table__cell--non-numeric">{{ profile.weight }} lbs</td>
+                            <td class="mdl-data-table__cell--non-numeric">{{ profile.calculate_bmi | floatformat }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>There were no profiles found with that name, email, or username.</p>
+            {% endif %}
 
             {% if is_paginated %}
                 <div class="pagination" style="width: 500px;">
