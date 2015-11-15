@@ -13,7 +13,6 @@ class HealthProfile(ClusterableModel):
 
     user = models.OneToOneField(User, primary_key=True)
     height = models.FloatField(help_text="Height in inches")
-    weight = models.FloatField(help_text="Weight in pounds")
 
     def __str__(self):
         return self.user.username
@@ -36,7 +35,8 @@ class HealthProfile(ClusterableModel):
         return feet, inches
 
     def calculate_bmi(self):
-        return (self.weight/(self.height*self.height))*703
+        # TODO: weight is 180 hardcoded now. get the weight from the most recent health record
+        return (180/(self.height*self.height))*703
 
 class HealthRecord(ClusterableModel):
     profile = ParentalKey(HealthProfile, related_name='records')
