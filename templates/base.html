@@ -52,11 +52,10 @@
         <nav class="demo-navigation mdl-navigation mdl-color--blue-grey-800">
             <a class="mdl-navigation__link" href="{% url 'index' %}"><i
                     class="mdl-color-text--blue-grey-400 material-icons" role="presentation">home</i>Home</a>
-            <a class="mdl-navigation__link" href="{% url 'profile_listing' %}"><i
-                    class="mdl-color-text--blue-grey-400 material-icons" role="presentation">home</i>Profiles</a>
             <a class="mdl-navigation__link" href="{% url 'profile' %}"><i
-                    class="mdl-color-text--blue-grey-400 material-icons" role="presentation">face</i>View Your Profile
-                (must be logged in)</a>
+                    class="mdl-color-text--blue-grey-400 material-icons" role="presentation">face</i>My Profile</a>
+            <a class="mdl-navigation__link" href="{% url 'profile_listing' %}"><i
+                    class="mdl-color-text--blue-grey-400 material-icons" role="presentation">list</i>Profiles</a>
 
             <div class="mdl-layout-spacer"></div>
             <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons"
@@ -74,5 +73,40 @@
 
 {% block footer_scripts %}
 {% endblock footer_scripts %}
+<script>
+    'use strict';
+    function parse(val) {
+        var result = "Not found",
+                tmp = [];
+        var items = location.search.substr(1).split("&");
+        for (var index = 0; index < items.length; index++) {
+            tmp = items[index].split("=");
+            if (tmp[0] === val) result = decodeURIComponent(tmp[1]);
+        }
+        return result;
+    }
+    document.addEventListener('DOMContentLoaded', function () {
+        var message = parse("msg");
+        if (message != "Not found") {
+            var snackbar = document.createElement('div'),
+                    text = document.createElement('div');
+            snackbar.classList.add('mdl-snackbar');
+            text.classList.add('mdl-snackbar__text');
+            text.innerText = message;
+            snackbar.appendChild(text);
+            var container = document.getElementsByClassName('mdl-layout')[0];
+            container.classList.add('show-toast');
+            document.body.appendChild(snackbar);
+            // Remove after 10 seconds
+            setTimeout(function () {
+                snackbar.style.opacity = 0;
+                container.style.margin = 0;
+                setTimeout(function () {
+                    snackbar.remove();
+                }, 2000);
+            }, 10000);
+        }
+    });
+</script>
 </body>
 </html>

@@ -15,7 +15,7 @@ nav {
     line-height: 20px;
 }
 
-nav, nav .nav-wrapper i, nav a.button-collapse, nav a.button-collapse i{
+nav, nav .nav-wrapper i, nav a.button-collapse, nav a.button-collapse i {
     line-height: 20px;
 }
 
@@ -29,4 +29,31 @@ nav, nav .nav-wrapper i, nav a.button-collapse, nav a.button-collapse i{
 
 .form-header {
     padding: 16px 0 8px 0;
+}
+
+.mdl-snackbar {
+    z-index: 1000;
+    background-color: #6A6ACC;
+    color: white;
+    width: 100%;
+    display: block;
+    position: absolute;
+    text-align: center;
+    font-weight: bold;
+    padding: 10px;
+    -webkit-transition: opacity 2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+    -moz-transition: opacity 2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+    -ms-transition: opacity 2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+    -o-transition: opacity 2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+    transition: opacity 2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+    opacity: 1;
+}
+
+.mdl-layout__container .show-toast {
+    margin-top: 40px;
+    transition: margin 2s cubic-bezier(0.17, 0.04, 0.03, 0.94);
+}
+
+.update-button {
+    margin: 32px 0 0 0;
 }

@@ -7,23 +7,22 @@
 
 {% block content %}
     <div class="mdl-shadow--2dp mdl-color--white mdl-cell--12-col health-cell">
-    <div class="form-header mdl-typography--headline">Update health information</div>
-    <form name="record-form">
-        {% form form=record_form %}{% endform %}
-    </form>
-    <div class="form-header mdl-typography--headline">
-        Physical Exercise
-    </div>
-    <form name="physical-form">
-        {% csrf_token %}
-        {% form form=phys_form %}{% endform %}
-    </form>
-    <div class="form-header mdl-typography--headline">
-        Eating Info
-    </div>
-    <form name="eating-form">
-        {% form form=eat_form %}{% endform %}
-    </form>
+        <div class="form-header mdl-typography--headline">Update health information</div>
+        <form id="all-forms" method="post">
+            {% csrf_token %}
+            {% form form=record_form %}{% endform %}
+            <div class="form-header mdl-typography--headline">
+                Physical Exercise
+            </div>
+            {% form form=phys_form %}{% endform %}
+            <div class="form-header mdl-typography--headline">
+                Eating Info
+            </div>
+            {% form form=eat_form %}{% endform %}
+            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary">
+                Update
+            </button>
+        </form>
 
     </div>
 {% endblock %}
