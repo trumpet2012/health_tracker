@@ -19,9 +19,12 @@ from django.contrib import admin
 from health_records import urls as records_urls
 
 from .views import IndexView
+from .serializers import HealthProfileViewSet
 
 urlpatterns = [
     url(r'^$', IndexView.as_view(), name='index'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^records/', include(records_urls)),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^profile-api/(?P<pk>[0-9]+)/$', HealthProfileViewSet.as_view({'get': 'retrieve'}), name='user-detail'),
 ]

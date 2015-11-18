@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
 
 {% block content_title %}
     Profile Page
@@ -6,37 +7,98 @@
 
 {% block content %}
 
-    <div class="mdl-shadow--2dp mdl-color--white mdl-cell--12-col">
-        <div class="mdl-layout__content health-cell">
-            <table class="mdl-data-table mdl-js-data-table">
-                <thead>
-                <tr>
-                    <th class="mdl-data-table__cell--non-numeric">Name</th>
-                    <th class="mdl-data-table__cell--non-numeric">Username</th>
-                    <th class="mdl-data-table__cell--non-numeric">E-mail</th>
-                    <th class="mdl-data-table__cell--non-numeric">Height</th>
-                    <th class="mdl-data-table__cell--non-numeric">Weight</th>
-                    <th class="mdl-data-table__cell--non-numeric">BMI</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td class="mdl-data-table__cell--non-numeric">{{ profile.user.get_full_name }}</td>
-                    <td class="mdl-data-table__cell--non-numeric">{{ profile }}</td>
-                    <td class="mdl-data-table__cell--non-numeric">{{ profile.user.email }}</td>
+    <div class="mdl-shadow--2dp mdl-color--white mdl-cell--3-col profile-block">
+        <div class="health-cell">
+            <div class="mdl-typography--headline">{{ profile.user.get_full_name }}</div>
+            <div class="stat-block">
+                <div class="profile-stat">
+                    <div class="profile-stat--key">Email</div>
+                    <div class="profile-stat--value">{{ profile.email|default:"Not Available" }}</div>
+                </div>
+                <div class="profile-stat">
+                    <div class="profile-stat--key">Height</div>
                     {% with profile.height_in_feet_and_inches as height %}
-                        <td class="mdl-data-table__cell--non-numeric">{{ height.0 }}' {{ height.1 }}"</td>
+                        <div class="profile-stat--value">{{ height.0 }}' {{ height.1 }}"</div>
                     {% endwith %}
-                    <td class="mdl-data-table__cell--non-numeric">{{ profile.weight }} lbs</td>
-                    <td class="mdl-data-table__cell--non-numeric">{{ profile.calculate_bmi | floatformat }}</td>
-
-                </tr>
-                </tbody>
-            </table>
-            <a href="{% url 'create_record' profile.pk %}" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary update-button">
+                </div>
+                <div class="profile-stat">
+                    <div class="profile-stat--key">Weight</div>
+                    <div class="profile-stat--value">{{ latest_record.weight|default_if_none:"Not added yet." }} lbs
+                    </div>
+                </div>
+                <div class="profile-stat">
+                    <div class="profile-stat--key">
+                        BMI
+                    </div>
+                    <div class="profile-stat--value">
+                        {{ profile.calculate_bmi|floatformat }}
+                    </div>
+                </div>
+            </div>
+            <a href="{% url 'create_record' profile.pk %}"
+               class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary update-button">
                 Add health record
             </a>
         </div>
     </div>
 
+    <div class="mdl-shadow--2dp mdl-color--white mdl-cell--5-col profile-block">
+        <div class="health-cell">
+            <div class="mdl-typography--headline">{{ latest_record.activity_date }} Recap<span
+                    style="color: #7bcc78; margin-left: 20px; font-size: .5em; vertical-align: middle;">(Most Recent)</span>
+            </div>
+            {% if latest_record %}
+                {% with latest_record.physical_activity.count as activity_count%}
+                <div class="profile-stat">
+                    Exercised <span class="profile-inline--value">{{ activity_count }}</span>
+                    time{% if activity_count > 1 %}s{% endif %}.
+                </div>
+                {% endwith %}
+                <div class="profile-stat">
+                {% with latest_record.calorie_count as calories %}
+                    Consumed <span class="profile-inline--value">{{ calories.0 }}</span> calories for breakfast,
+                    <span class="profile-inline--value">{{ calories.1 }}</span> for lunch and
+                    <span class="profile-inline--value">{{ calories.2 }}</span> calories for dinner.
+                {% endwith %}
+                </div>
+                {% for activity in latest_record.exercise_list %}
+                <div class="profile-stat">
+                    {% for key, value in activity.items %}
+                        {% if key == 'walking' or key == 'biking' or key == 'jogging' %}
+                            Went
+                        {% else %}
+                            Did
+                        {% endif %}<span class="profile-inline--value">{{ key }}</span> for <span class="profile-inline--value">{{ value }}</span> minutes.
+                    {% endfor %}
+                </div>
+                {% endfor %}
+            {% else %}
+                <div>No health records found.</div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="mdl-shadow--2dp mdl-color--white mdl-cell--4-col profile-block">
+        <div class="health-cell">
+            <div class="eating-info--graph"></div>
+
+        </div>
+    </div>
+
+    <div class="mdl-shadow--2dp mdl-color--white mdl-cell--5-col profile-block">
+        <div class="health-cell">
+            <div class="phys-info--graph"></div>
+
+        </div>
+    </div>
+
 {% endblock %}
+
+{% block footer_scripts %}
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script type="text/javascript" src="{% static 'js/profile_charts.js' %}"></script>
+    <script>
+        create_profile_charts('{{ profile.pk }}');
+    </script>
+{% endblock footer_scripts %}

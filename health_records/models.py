@@ -38,6 +38,7 @@ class HealthProfile(ClusterableModel):
         # TODO: weight is 180 hardcoded now. get the weight from the most recent health record
         return (180/(self.height*self.height))*703
 
+
 class HealthRecord(ClusterableModel):
     profile = ParentalKey(HealthProfile, related_name='records')
     activity_date = models.DateField()
@@ -47,6 +48,45 @@ class HealthRecord(ClusterableModel):
 
     def __str__(self):
         return self.profile.user.username + ':' + self.activity_date.strftime('%b %d, %Y')
+
+    def calorie_count(self):
+        """
+        Returns list containing the total calories consumed for the three meals associated with this record.
+        Index position: 0 is breakfast, 1 is lunch, 2 is dinner.
+        :return: list of total calories.
+        """
+        eating_records = self.eating_info.all()
+        calories = [0, 0, 0]
+        for record in eating_records:
+            if record.meal_time == record.BREAKFAST:
+                calories[0] += record.calories
+            elif record.meal_time == record.LUNCH:
+                calories[1] += record.calories
+            else:
+                calories[2] += record.calories
+
+        return calories
+
+    def exercise_list(self):
+        act_list = []
+        phys_activities = self.physical_activity.all()
+
+        for act in phys_activities:
+            # act - physical activity record
+            temp_dict = None
+            activity_type = act.activity_type
+            for other_act in act_list:
+                if activity_type in other_act:
+                    temp_dict = other_act
+            if temp_dict is None:
+                temp_dict = {activity_type: act.duration}
+            else:
+                old_duration = temp_dict.get(activity_type)
+                old_duration += act.duration
+                temp_dict.update({activity_type: old_duration})
+
+            act_list.append(temp_dict)
+        return act_list
 
 
 class PhysActivity(ClusterableModel):

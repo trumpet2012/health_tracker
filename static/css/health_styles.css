@@ -57,3 +57,31 @@ nav, nav .nav-wrapper i, nav a.button-collapse, nav a.button-collapse i {
 .update-button {
     margin: 32px 0 0 0;
 }
+
+.profile-stat {
+    margin: 16px 8px;
+    display: flex;
+    flex-direction: row;
+}
+
+.profile-stat--key {
+    color: #9b9b9b;
+ }
+
+.profile-stat--value {
+    margin-left: 16px;
+}
+
+.stat-block {
+    margin-left: 8px;
+}
+
+.profile-block {
+    margin: 16px 32px;
+}
+
+.profile-inline--value {
+    font-style: italic;
+    font-size: 1.3em;
+    padding: 0 6px;
+}
