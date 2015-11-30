@@ -1,6 +1,6 @@
 function create_profile_charts(profile_id) {
     $.ajax({
-        url: "http://0.0.0.0:8000/profile-api/" + profile_id + "/",
+        url: "http://localhost:8000/profile-api/" + profile_id + "/",
         dataType: "json",
         success: function (json) {
             //Catch errors
@@ -107,11 +107,9 @@ function create_profile_charts(profile_id) {
                 var local_series;
                 $.each(series, function(index, ser){
                     if('name' in ser && ser['name'] === activity_type){
-                        console.log("match");
                         local_series = ser;
                     }
                 });
-                console.log(local_series);
                 if (!local_series || local_series ==  undefined) {
                     local_series = {
                         'name': activity_type,
