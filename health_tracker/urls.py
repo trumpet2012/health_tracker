@@ -17,12 +17,12 @@ from django.conf.urls import include, url
 from django.contrib import admin
 
 from health_records import urls as records_urls
+from health_records.views import ProfileListing
 
-from .views import IndexView
 from .serializers import HealthProfileViewSet
 
 urlpatterns = [
-    url(r'^$', IndexView.as_view(), name='index'),
+    url(r'^$', ProfileListing.as_view(), name='index'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^records/', include(records_urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),

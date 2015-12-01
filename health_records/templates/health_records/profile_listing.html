@@ -1,51 +1,67 @@
 {% extends 'base.html' %}
 
 {% block content_title %}
-    Profile Listing
+    Explore Other Profiles
 {% endblock %}
 
 {% block content %}
-    <div class="mdl-shadow--2dp mdl-color--white mdl-cell--12-col">
-        <div class="mdl-layout__content health-cell">
-            {% if object_list %}
-                <table class="mdl-data-table mdl-js-data-table">
-                    <thead>
-                    <tr>
-                        <th class="mdl-data-table__cell--non-numeric">Name</th>
-                        <th class="mdl-data-table__cell--non-numeric">Username</th>
-                        <th class="mdl-data-table__cell--non-numeric">E-mail</th>
-                        <th class="mdl-data-table__cell--non-numeric">Height</th>
-                        <th class="mdl-data-table__cell--non-numeric">Weight</th>
-                        <th class="mdl-data-table__cell--non-numeric">BMI</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for profile in object_list %}
-                        <tr>
-                            <td class="mdl-data-table__cell--non-numeric"><a href="{% url 'profile_page' profile.pk %}">{{ profile.user.get_full_name }}</a></td>
-                            <td class="mdl-data-table__cell--non-numeric">{{ profile }}</td>
-                            <td class="mdl-data-table__cell--non-numeric">{{ profile.user.email }}</td>
-                            {% with profile.height_in_feet_and_inches as height %}
-                                <td class="mdl-data-table__cell--non-numeric">{{ height.0 }}' {{ height.1 }}"</td>
-                            {% endwith %}
-                            <td class="mdl-data-table__cell--non-numeric">{{ profile.weight }} lbs</td>
-                            <td class="mdl-data-table__cell--non-numeric">{{ profile.calculate_bmi | floatformat }}</td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
+        {% if object_list %}
+                {% for profile in object_list %}
+                    <div class="mdl-shadow--2dp mdl-color--white mdl-cell--3-col profile-block">
+                        <a href="{% url 'profile_page' profile.pk %}">
+                            <div class="mdl-card__title mdl-color--blue-grey-300">
+                                <div class="mdl-card__title-text">
+                                    {{ profile.user.get_full_name }}
+                                </div>
+                            </div>
+                        </a>
+                        <div class="health-cell">
+                            <div class="stat-block">
+                                <div class="profile-stat">
+                                    <div class="profile-stat--key">Email</div>
+                                    <div class="profile-stat--value">{{ profile.email|default:"Not Available" }}</div>
+                                </div>
+                                <div class="profile-stat">
+                                    <div class="profile-stat--key">Height</div>
+                                    {% with profile.height_in_feet_and_inches as height %}
+                                        <div class="profile-stat--value">{{ height.0 }}' {{ height.1 }}"</div>
+                                    {% endwith %}
+                                </div>
+                                <div class="profile-stat">
+                                    <div class="profile-stat--key">Weight</div>
+                                    <div class="profile-stat--value">{{ profile.records.last.weight|default_if_none:"Not added yet." }} lbs
+                                    </div>
+                                </div>
+                                <div class="profile-stat">
+                                    <div class="profile-stat--key">
+                                        BMI
+                                    </div>
+                                    <div class="profile-stat--value">
+                                        {{ profile.calculate_bmi|floatformat }}
+                                    </div>
+                                </div>
+                            </div>
+                            {% if is_user %}
+                            <a href="{% url 'create_record' profile.pk %}"
+                               class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary update-button">
+                                Add health record
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
             {% else %}
                 <p>There were no profiles found with that name, email, or username.</p>
             {% endif %}
 
             {% if is_paginated %}
-                <div class="pagination" style="width: 500px;">
+                <div class="pagination">
                     <table style="margin:0 auto">
                     <span class="page-links">
                     <tr>
                         <td class="mdl-data-table__cell--non-numeric" style="width: 100px">
                             {% if page_obj.has_previous %}
-                                <a href="/records/all?page={{ page_obj.previous_page_number }}">previous</a>
+                                <a href="{% url 'index' %}?page={{ page_obj.previous_page_number }}">previous</a>
                             {% endif %}
                         </td>
                         <td class="mdl-data-table__cell--non-numeric" style="width: 100px">
@@ -55,7 +71,7 @@
                         </td>
                         <td class="mdl-data-table__cell--non-numeric" style="width: 100px">
                             {% if page_obj.has_next %}
-                                <a href="/records/all?page={{ page_obj.next_page_number }}">next</a>
+                                <a href="{% url 'index' %}?page={{ page_obj.next_page_number }}">next</a>
                             {% endif %}
                         </td>
                     </tr>

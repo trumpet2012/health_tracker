@@ -1,5 +1,4 @@
 from django.views.generic import ListView
-from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse

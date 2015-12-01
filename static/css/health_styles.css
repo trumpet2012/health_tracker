@@ -85,3 +85,8 @@ nav, nav .nav-wrapper i, nav a.button-collapse, nav a.button-collapse i {
     font-size: 1.3em;
     padding: 0 6px;
 }
+
+.pagination {
+    width: 100% !important;
+    margin: 8px 24px;
+}
