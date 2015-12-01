@@ -31,6 +31,7 @@ def profile_page(request, profile_id):
 
         context.update({
             'profile': profile,
+            'is_user': request.user == profile.user
         })
 
     except ObjectDoesNotExist:
