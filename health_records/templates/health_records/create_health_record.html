@@ -16,9 +16,19 @@
             </div>
             {% form form=phys_form %}{% endform %}
             <div class="form-header mdl-typography--headline">
-                Eating Info
+                Breakfast Calories
             </div>
-            {% form form=eat_form %}{% endform %}
+            {% form form=breakfast_form %}{% endform %}
+
+            <div class="form-header mdl-typography--headline">
+                Lunch Calories
+            </div>
+            {% form form=lunch_form %}{% endform %}
+
+            <div class="form-header mdl-typography--headline">
+                Dinner Calories
+            </div>
+            {% form form=dinner_form %}{% endform %}
             <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary">
                 Update
             </button>

@@ -8,7 +8,7 @@ from django.template.context_processors import csrf
 from django.db.models import Q
 
 from .models import HealthProfile, HealthRecord, PhysActivity, EatingInfo
-from .forms import EatingForm, PhysicalForm, RecordForm
+from .forms import PhysicalForm, RecordForm, BreakfastForm, LunchForm, DinnerForm
 
 
 class ProfileListing(ListView):
@@ -53,7 +53,9 @@ def create_profile(request, profile_id):
         context.update({
             'record_form': RecordForm(),
             'phys_form': PhysicalForm(),
-            'eat_form': EatingForm(),
+            'breakfast_form': BreakfastForm(),
+            'lunch_form': LunchForm(),
+            'dinner_form': DinnerForm(),
         })
 
     if request.method == 'POST':
@@ -61,7 +63,9 @@ def create_profile(request, profile_id):
 
         record_form = RecordForm(form_data)
         phys_form = PhysicalForm(form_data)
-        eat_form = EatingForm(form_data)
+        breakfast_form = BreakfastForm(form_data)
+        lunch_form = LunchForm(form_data)
+        dinner_form = DinnerForm(form_data)
 
         phys_error = False
         eat_errors = False
@@ -78,18 +82,37 @@ def create_profile(request, profile_id):
             elif phys_form.data['activity_type']:
                 phys_error = True
 
-            if eat_form.is_valid():
-                eat_data = eat_form.cleaned_data
-                eat_info = EatingInfo.objects.create(record=record, **eat_data)
-                eat_info.save()
-            elif eat_form.data['meal_time']:
-                eat_errors = False
+            if breakfast_form.changed_data:
+                if breakfast_form.is_valid():
+                    breakfast_data = breakfast_form.cleaned_data
+                    breakfast_info = EatingInfo.objects.create(record=record, meal_time=breakfast_form.meal_time, calories=breakfast_data.get('breakfast_calories'))
+                    breakfast_info.save()
+                else:
+                    eat_errors = True
+
+            if lunch_form.changed_data:
+                if lunch_form.is_valid():
+                    lunch_data = lunch_form.cleaned_data
+                    lunch_info = EatingInfo.objects.create(record=record, meal_time=lunch_form.meal_time, calories=lunch_data.get('lunch_calories'))
+                    lunch_info.save()
+                else:
+                    eat_errors = True
+
+            if  dinner_form.changed_data:
+                if dinner_form.is_valid():
+                    dinner_data = dinner_form.cleaned_data
+                    dinner_info = EatingInfo.objects.create(record=record, meal_time=dinner_form.meal_time, calories=dinner_data.get('dinner_calories'))
+                    dinner_info.save()
+                else:
+                    eat_errors = True
 
         if record_form.errors or phys_error or eat_errors:
             context.update({
                 'record_form': record_form,
                 'phys_form': phys_form,
-                'eat_form': eat_form,
+                'breakfast_form': breakfast_form,
+                'lunch_form': lunch_form,
+                'dinner_form': dinner_form,
             })
         else:
             return HttpResponseRedirect(reverse('profile_page', args=(profile_id,))+"?msg=Health%20records%20updated.")
