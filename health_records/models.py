@@ -35,8 +35,9 @@ class HealthProfile(ClusterableModel):
         return feet, inches
 
     def calculate_bmi(self):
-        # TODO: weight is 180 hardcoded now. get the weight from the most recent health record
-        return (180/(self.height*self.height))*703
+        recent_record = self.records.first()
+        weight = recent_record.weight
+        return (weight/(self.height*self.height))*703
 
 
 class HealthRecord(ClusterableModel):
@@ -45,6 +46,10 @@ class HealthRecord(ClusterableModel):
     date_created = models.DateField(auto_now_add=True)
     date_modified = models.DateField(auto_now=True)
     weight = models.FloatField(help_text="Enter your weight in lbs.")
+
+    class Meta:
+        ordering = ['-activity_date']
+
 
     def __str__(self):
         return self.profile.user.username + ':' + self.activity_date.strftime('%b %d, %Y')
