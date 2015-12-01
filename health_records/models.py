@@ -36,7 +36,10 @@ class HealthProfile(ClusterableModel):
 
     def calculate_bmi(self):
         recent_record = self.records.first()
-        weight = recent_record.weight
+        if recent_record:
+            weight = recent_record.weight
+        else:
+            weight = 0
         return (weight/(self.height*self.height))*703
 
 
