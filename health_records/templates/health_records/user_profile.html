@@ -2,14 +2,13 @@
 {% load staticfiles %}
 
 {% block content_title %}
-    Profile Page
+{{ profile.user.get_full_name }}
 {% endblock %}
 
 {% block content %}
 
     <div class="mdl-shadow--2dp mdl-color--white mdl-cell--3-col profile-block">
         <div class="health-cell">
-            <div class="mdl-typography--headline">{{ profile.user.get_full_name }}</div>
             <div class="stat-block">
                 <div class="profile-stat">
                     <div class="profile-stat--key">Email</div>
