@@ -26,7 +26,7 @@ SECRET_KEY = '19e(=xyrsop52!cm7j-bl4zlz*5-fbdc9w&grrzu0lst15u+^i'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', ]
 
 
 # Application definition
@@ -41,7 +41,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'health_records'
+    'health_records',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -114,3 +114,5 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
 STATIC_URL = '/static/'
+
+INTERNAL_IPS = ['127.0.0.1', 'localhost', ]

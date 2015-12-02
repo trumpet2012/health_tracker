@@ -34,8 +34,15 @@ function create_profile_charts(profile_id) {
                         record.activity_date,
                         eat.calories
                     ];
-
-                    days_used.push(record.activity_date);
+                    var found = false;
+                    for (var day in days_used){
+                        if (days_used[day] == record.activity_date){
+                            found = true;
+                        }
+                    }
+                    if (!found){
+                         days_used.push(record.activity_date);
+                    }
 
                     if (meal_time == 'breakfast') {
                         breakfastSeries.push(data_point);
@@ -49,7 +56,7 @@ function create_profile_charts(profile_id) {
             });
 
         });
-
+        console.log('d' + days_used);
         $('.eating-info--graph').highcharts({
             rangeSelector: {
                 selected: 1
@@ -123,8 +130,15 @@ function create_profile_charts(profile_id) {
                     record.activity_date,
                     phys.duration
                 ];
-                if (!record.activity_date in days_used )
+                var found = false;
+                for (var day in days_used) {
+                    if (days_used[day] == record.activity_date) {
+                        found = true;
+                    }
+                }
+                if (!found) {
                     days_used.push(record.activity_date);
+                }
                 series_data.push(data_point);
 
             });
